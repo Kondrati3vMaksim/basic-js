@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../lib');
+const { NotImplementedError } = require("../lib");
 
 /**
  * Given an email address, return it's domain.
@@ -11,9 +11,9 @@ const { NotImplementedError } = require('../lib');
  *
  */
 function getEmailDomain(email) {
-  return email.slice(email.indexOf("@") + 1);
+  return email.slice(email.lastIndexOf("@") + 1);
 }
 
 module.exports = {
-  getEmailDomain
+  getEmailDomain,
 };
