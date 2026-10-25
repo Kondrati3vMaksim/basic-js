@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../lib');
+const { NotImplementedError } = require("../lib");
 
 /**
  * Implement class VigenereCipheringMachine that allows us to create
@@ -20,14 +20,67 @@ const { NotImplementedError } = require('../lib');
  *
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  constructor(isNormal) {
+    this.normal = isNormal;
+  }
+  encrypt(text, key) {
+    if (text === undefined || key === undefined) {
+      throw new Error("Incorrect arguments!");
+    }
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const upperText = text.toUpperCase();
+    const upperKey = key.toUpperCase();
+    let result = "";
+    let k = 0;
+    for (let i = 0; i < text.length; i++) {
+      if (alphabet.includes(upperText[i])) {
+        const keyChar = k % key.length;
+        const indexText = alphabet.indexOf(upperText[i]);
+        const keyIndex = alphabet.indexOf(upperKey[keyChar]);
+        let newIndex = indexText + keyIndex;
+        if (newIndex > 25) {
+          newIndex = newIndex % alphabet.length;
+        }
+        result += alphabet[newIndex];
+        k++;
+      } else {
+        result += upperText[i];
+      }
+    }
+    if (this.normal === false) {
+      return result.split("").reverse().join("");
+    }
+    return result;
   }
 
-  decrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  decrypt(text, key) {
+    if (text === undefined || key === undefined) {
+      throw new Error("Incorrect arguments!");
+    }
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const upperText = text.toUpperCase();
+    const upperKey = key.toUpperCase();
+    let result = "";
+    let k = 0;
+    for (let i = 0; i < text.length; i++) {
+      if (alphabet.includes(upperText[i])) {
+        const keyChar = k % key.length;
+        const indexText = alphabet.indexOf(upperText[i]);
+        const keyIndex = alphabet.indexOf(upperKey[keyChar]);
+        let newIndex = indexText - keyIndex;
+        if (newIndex < 0) {
+          newIndex = newIndex + alphabet.length;
+        }
+        result += alphabet[newIndex];
+        k++;
+      } else {
+        result += upperText[i];
+      }
+    }
+    if (this.normal === false) {
+      return result.split("").reverse().join("");
+    }
+    return result;
   }
 }
 
